@@ -7,7 +7,7 @@ let places = [];
 download().then((data) => {places = data});
 
 const form = createForm (document.getElementById("form"));
-form.setLabels([["Luogo","text"]]);
+form.setLabels([["Luogo","text"],["Targhe","text"],["Data","date"],["Ora","time"],["Feriti","number"],["Morti","number"]]);
 form.render();
 form.setCallback(getCoordinates);
 
