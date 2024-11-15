@@ -62,4 +62,61 @@ const renderMap = () => {
     })
 }
 
-export{createForm,renderMap};
+function createTable() {
+    const container = document.getElementById('form');
+  
+    // Scarica dati
+    download().then((places) => {
+      //Crea la tabella
+      let tableHtml = `
+        <input type="text" id="FiltroInput" placeholder="Cerca per indirizzo">
+        <button id="Button">Filtra</button>
+        <table>
+          <thead>
+            <tr>
+              <th>Indirizzo</th>
+              <th>Data e Ora</th>
+              <th>Targhe Coinvolte</th>
+              <th>Feriti</th>
+              <th>Morti</th>
+            </tr>
+          </thead>
+          <tbody id="tabella_aggiornata">
+            ${places.map((place) => `
+              <tr>
+                <td>${place.name}</td>
+                <td>${place.date}</td>
+                <td>${(place.plates).join(', ')}</td>
+                <td>${place.injured}</td>
+                <td>${place.dead}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+      container.innerHTML = tableHtml;
+  
+      // filtra i dati della tabella
+      document.getElementById('Button').onclick = () => {
+        const filter = document.getElementById('FiltroInput');
+        const filteredPlaces = posti.filter(place => place.name.includes(filter));
+  
+        //tabella aggiornata
+        const tbody = document.getElementById('tabella_aggiornata');
+        tbody.innerHTML = filteredPlaces.map((place) => `
+          <tr>
+            <td>${place.name}</td>
+            <td>${place.date}</td>
+            <td>${(place.plates).join(', ')}</td>
+            <td>${place.injured}</td>
+            <td>${place.dead}</td>
+          </tr>
+        `).join('');
+      };
+    });
+  }
+
+
+
+
+export{createForm,renderMap,createTable};
