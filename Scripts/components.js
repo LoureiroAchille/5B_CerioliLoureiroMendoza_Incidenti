@@ -35,24 +35,6 @@ attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap<
 }).addTo(map);
 
 const renderMap = () => {
-    upload([
-        {
-           name: "Piazza del Duomo",
-           coords: [45.4639102, 9.1906426]
-        },
-        {
-           name: "Darsena",
-           coords: [45.4536286, 9.1755852]
-        },
-        {
-           name: "Parco Lambro",
-           coords: [45.4968296, 9.2505173]
-        },
-        {
-           name: "Stazione Centrale",
-           coords: [45.48760768, 9.2038215]
-        }
-     ]);
     download().then((places) => {
         places.forEach((place) => {
             console.log(place);
