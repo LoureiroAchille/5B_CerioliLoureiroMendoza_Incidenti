@@ -43,11 +43,11 @@ const renderMap = () => {
   let places = [
     {
        name: "Piazza del Duomo",
-       coords: [45.4639102, 9.1906426],
        date: Date("2022-03-25"),
-       plates: 
-       injured: 1
-       dead: 1
+       plates: "AA123BB"
+       injured: 1,
+       dead: 1,
+       coords: [45.4639102, 9.1906426],
     }
  ];
   upload(places);
