@@ -128,7 +128,8 @@ function createTable() {
           <thead>
             <tr>
               <th>Indirizzo</th>
-              <th>Data e Ora</th>
+              <th>Data</th>
+              <th>Ora</th>
               <th>Targhe Coinvolte</th>
               <th>Feriti</th>
               <th>Morti</th>
@@ -139,6 +140,7 @@ function createTable() {
               <tr>
                 <td>${place.name}</td>
                 <td>${place.date}</td>
+                <td>${place.time}</td>
                 <td>${place.plates}</td>
                 <td>${place.injured}</td>
                 <td>${place.dead}</td>
@@ -152,7 +154,7 @@ function createTable() {
       // filtra i dati della tabella
       document.getElementById('Button').onclick = () => {
         const filter = document.getElementById('FiltroInput');
-        const filteredPlaces = posti.filter(place => place.name.includes(filter));
+        const filteredPlaces = places.filter(place => place.name.includes(filter.value));
   
         //tabella aggiornata
         const tbody = document.getElementById('tabella_aggiornata');
@@ -160,6 +162,7 @@ function createTable() {
           <tr>
             <td>${place.name}</td>
             <td>${place.date}</td>
+            <td>${place.time}</td>
             <td>${place.plates}</td>
             <td>${place.injured}</td>
             <td>${place.dead}</td>
