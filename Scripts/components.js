@@ -152,7 +152,8 @@ function createTable() {
       // filtra i dati della tabella
       document.getElementById('Button').onclick = () => {
         const filter = document.getElementById('FiltroInput');
-        const filteredPlaces = posti.filter(place => place.name.includes(filter));
+        const filteredPlaces = places.filter(place => place.name.includes(filter.value));
+
   
         //tabella aggiornata
         const tbody = document.getElementById('tabella_aggiornata');
