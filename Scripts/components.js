@@ -40,6 +40,17 @@ const createForm = (elem) => {
 
 
 const renderMap = () => {
+  let places = [
+    {
+       name: "Piazza del Duomo",
+       date: Date("2022-03-25"),
+       plates: "AA123BB"
+       injured: 1,
+       dead: 1,
+       coords: [45.4639102, 9.1906426],
+    }
+ ];
+  upload(places);
   download().then((places) => {
       const map = L.map('map').setView([45.4654219, 9.1859243], 12);
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
