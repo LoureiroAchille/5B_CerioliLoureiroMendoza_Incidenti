@@ -116,7 +116,7 @@ const renderMap = () => {
 
 
 function createTable() {
-    const container = document.getElementById('form');
+    const container = document.getElementById('table');
   
     // Scarica dati
     download().then((places) => {
