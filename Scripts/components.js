@@ -40,6 +40,7 @@ const createForm = (elem) => {
                           element.innerHTML = data.map((line) => 
                             `<div>${line[0]}<input id="${line[0]}" type="${line[1]}"></div>`
                           ).join('');
+                          element.innerHTML += `<button type="button" id="chiudi">Chiudi</button>`;
                           element.innerHTML += `<button type="button" id="invia">Invia</button>`; 
                       });
                   });
