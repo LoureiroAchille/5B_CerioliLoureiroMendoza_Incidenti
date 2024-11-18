@@ -27,8 +27,8 @@ const createForm = (elem) => {
                   download().then((places) => {
                       places.push(object); // Aggiungiunta incidente
                       upload(places).then(() => {
+                          renderMap();
                           alert("Incidente aggiunto con successo!");
-                          addMarker(places);
                           element.innerHTML = data.map((line) => 
                             `<div>${line[0]}<input id="${line[0]}" type="${line[1]}"></div>`
                           ).join('');
