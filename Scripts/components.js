@@ -44,7 +44,7 @@ const renderMap = () => {
     {
        name: "Piazza del Duomo",
        date: Date("2022-03-25"),
-       plates: "AA123BB"
+       plates: "AA123BB",
        injured: 1,
        dead: 1,
        coords: [45.4639102, 9.1906426],
