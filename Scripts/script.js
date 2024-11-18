@@ -12,3 +12,11 @@ form.render();
 form.setCallback(getCoordinates);
 
 renderMap();
+
+const modale = document.getElementById("modale");
+
+modale.onclick = () => {
+    document.getElementById("form").style.display="block";
+    document.getElementById("overlay").style.display="block";
+
+}

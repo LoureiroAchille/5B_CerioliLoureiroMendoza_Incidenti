@@ -12,12 +12,20 @@ const createForm = (elem) => {
           element.innerHTML = data.map((line) => 
               `<div>${line[0]}<input id="${line[0]}" type="${line[1]}"></div>`
           ).join('');
+          element.innerHTML += `<button type="button" id="chiudi">Chiudi</button>`;
           element.innerHTML += `<button type="button" id="invia">Invia</button>`;
+
+          document.getElementById("chiudi").onclick = () => {
+            elem.style.display="none";
+            document.getElementById("overlay").style.display="none";
+          }
           
           document.getElementById("invia").onclick = () => {
               const result = data.map((name) => {
                   return document.getElementById(name[0]).value;
               });
+              elem.style.display="none";
+              document.getElementById("overlay").style.display="none";
 
               // Chiamata al callback per ottenere le coordinate 
               callback(result).then((object) => {
