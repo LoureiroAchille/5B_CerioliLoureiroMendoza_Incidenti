@@ -50,7 +50,7 @@ const createForm = (elem) => {
 };
 
 
-const renderMap = () => {
+
   /*let places = [
     {
        name: "Piazza del Duomo",
@@ -63,6 +63,28 @@ const renderMap = () => {
     }
  ];
   upload(places);*/
+  let zoom = 12;
+  let maxZoom = 19;
+  let map = L.map('map').setView([45.4654219,9.1859243], zoom);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: maxZoom,
+  attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
+  
+const renderMap = () => {
+      download().then((places) => {
+        places.forEach((place) => {
+          const marker = L.marker(place.coords).addTo(map);
+          marker.bindPopup(`
+              <b>${place.name}</b><br>
+              <b>Data:</b> ${place.date}<br>
+              <b>Ora:</b> ${place.time}<br>
+              <b>Feriti:</b> ${place.injured}<br>
+              <b>Morti:</b> ${place.dead}`);
+        });
+      })
+  }
+/* 
   download().then((places) => {
     console.log(places);
       const map = L.map('map').setView([45.4654219, 9.1859243], 12);
@@ -70,19 +92,8 @@ const renderMap = () => {
           maxZoom: 19,
           attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       }).addTo(map);
-
-      places.forEach((place) => {
-          const marker = L.marker(place.coords).addTo(map);
-          marker.bindPopup(`
-              <b>${place.name}</b><br>
-              <b>Data:</b> ${place.date}<br>
-              <b>Ora:</b> ${place.time}<br>
-              <b>Feriti:</b> ${place.injured}<br>
-              <b>Morti:</b> ${place.dead}
-          `);
-      });
   });
-};
+};*/
 
 
 
