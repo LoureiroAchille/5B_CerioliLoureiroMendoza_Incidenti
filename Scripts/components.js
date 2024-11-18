@@ -37,11 +37,9 @@ const createForm = (elem) => {
                       upload(places).then(() => {
                           renderMap();
                           alert("Incidente aggiunto con successo!");
-                          element.innerHTML = data.map((line) => 
-                            `<div>${line[0]}<input id="${line[0]}" type="${line[1]}"></div>`
-                          ).join('');
-                          element.innerHTML += `<button type="button" id="chiudi">Chiudi</button>`;
-                          element.innerHTML += `<button type="button" id="invia">Invia</button>`; 
+                          data.map((line)=>
+                            document.getElementById(line[0]).value=""
+                          );
                       });
                   });
               });
