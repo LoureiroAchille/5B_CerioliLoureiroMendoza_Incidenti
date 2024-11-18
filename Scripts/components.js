@@ -9,36 +9,53 @@ const createForm = (elem) => {
       setLabels: (labels) => { data = labels; },
       setCallback: (f) => { callback = f; },
       render: () => {
-          element.innerHTML = data.map((line) => 
-              `<div>${line[0]}<input id="${line[0]}" type="${line[1]}"></div>`
-          ).join('');
+          const today = new Date().toISOString().split("T")[0]; // Ottiene la data in formato YYYY-MM-DD
+
+          element.innerHTML = data.map(([label, type]) => {
+              let maxAttr = "";
+              if (type === "date") {
+                  maxAttr = `max="${today}"`;
+              }
+              return `<div>${label}<input id="${label}" type="${type}" ${maxAttr}></div>`;
+          }).join('');
+
           element.innerHTML += `<button type="button" id="chiudi">Chiudi</button>`;
           element.innerHTML += `<button type="button" id="invia">Invia</button>`;
 
           document.getElementById("chiudi").onclick = () => {
-            elem.style.display="none";
-            document.getElementById("overlay").style.display="none";
-          }
-          
-          document.getElementById("invia").onclick = () => {
-              const result = data.map((name) => {
-                  return document.getElementById(name[0]).value;
-              });
-              elem.style.display="none";
-              document.getElementById("overlay").style.display="none";
+              elem.style.display = "none";
+              document.getElementById("overlay").style.display = "none";
+          };
 
-              // Chiamata al callback per ottenere le coordinate 
+          document.getElementById("invia").onclick = () => {
+              const result = data.map(([label]) => {
+                  return document.getElementById(label).value;
+              });
+
+              // verifica il campo delle targhe (se esiste)
+              const platesField = result.find((value, index) => data[index][0] === "Targhe"); // trova il campo "Targhe"
+          
+              if (platesField) {
+                  const plates = platesField.split(",").map((plate) => plate.trim()); // Divide e rimuove gli spazi
+                  if (plates.length > 3) {
+                    alert("Non puoi inserire più di 3 targhe!");
+                    return; // blocca l'invio se ci sono più di 3 targhe
+                }
+              }
+
+              elem.style.display = "none";
+              document.getElementById("overlay").style.display = "none";
+
               callback(result).then((object) => {
                   console.log(object);
 
-                  
                   download().then((places) => {
-                      places.push(object); // Aggiungiunta incidente
+                      places.push(object); // Aggiunta incidente
                       upload(places).then(() => {
                           renderMap();
                           alert("Incidente aggiunto con successo!");
-                          data.map((line)=>
-                            document.getElementById(line[0]).value=""
+                          data.map((line) =>
+                              document.getElementById(line[0]).value = "" // Reset dei campi
                           );
                       });
                   });
@@ -47,6 +64,8 @@ const createForm = (elem) => {
       },
   };
 };
+
+
 
 
 
