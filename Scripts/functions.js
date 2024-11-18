@@ -10,3 +10,15 @@ export const getCoordinates = (luogo) => {
         })
     })
 }
+export const addMarker = (places) =>{
+    places.forEach((place) => {
+        const marker = L.marker(place.coords).addTo(map);
+        marker.bindPopup(`
+            <b>${place.name}</b><br>
+            <b>Data:</b> ${place.date}<br>
+            <b>Ora:</b> ${place.time}<br>
+            <b>Feriti:</b> ${place.injured}<br>
+            <b>Morti:</b> ${place.dead}
+        `);
+    });
+}

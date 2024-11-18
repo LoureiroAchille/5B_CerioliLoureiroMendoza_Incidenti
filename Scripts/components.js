@@ -1,5 +1,5 @@
 import{upload,download} from "./cache.js";
-
+import { addMarker } from "./functions.js";
 const createForm = (elem) => {
   let data;
   let element = elem;
@@ -28,8 +28,11 @@ const createForm = (elem) => {
                       places.push(object); // Aggiungiunta incidente
                       upload(places).then(() => {
                           alert("Incidente aggiunto con successo!");
-                          renderMap(); 
-                          element.innerHTML = ''; // Pulisce il form
+                          addMarker(places);
+                          element.innerHTML = data.map((line) => 
+                            `<div>${line[0]}<input id="${line[0]}" type="${line[1]}"></div>`
+                          ).join('');
+                          element.innerHTML += `<button type="button" id="invia">Invia</button>`; 
                       });
                   });
               });
@@ -53,6 +56,7 @@ const renderMap = () => {
  ];
   upload(places);*/
   download().then((places) => {
+    console.log(places);
       const map = L.map('map').setView([45.4654219, 9.1859243], 12);
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 19,
@@ -63,7 +67,8 @@ const renderMap = () => {
           const marker = L.marker(place.coords).addTo(map);
           marker.bindPopup(`
               <b>${place.name}</b><br>
-              <b>Data e Ora:</b> ${place.date}<br>
+              <b>Data:</b> ${place.date}<br>
+              <b>Ora:</b> ${place.time}<br>
               <b>Feriti:</b> ${place.injured}<br>
               <b>Morti:</b> ${place.dead}
           `);
@@ -126,7 +131,7 @@ function createTable() {
       };
     });
   }
-  const handleAddIncident = () => {
+  /*const handleAddIncident = () => {
     const formContainer = document.getElementById('form');
 
     const formHtml = `
@@ -155,19 +160,19 @@ function createTable() {
 
         download().then((places) => {
             places.push(newIncident);
+            console.log(places);
             upload(places).then(() => {
-                renderMap();
+                addMarker(places[length(places)-1]);
                 alert("Incidente aggiunto con successo!");
-                formContainer.innerHTML = ''; // Pulisce il form
             });
         });
     };
 };
-
+*/
 
 // Esporta la funzione per essere utilizzata in script.js
 
 
 
 
-export{createForm,renderMap,createTable,handleAddIncident};
+export{createForm,renderMap,createTable};
