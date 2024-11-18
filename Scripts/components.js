@@ -160,7 +160,7 @@ function createTable() {
           <tr>
             <td>${place.name}</td>
             <td>${place.date}</td>
-            <td>${(place.plates).join(', ')}</td>
+            <td>${place.plates}</td>
             <td>${place.injured}</td>
             <td>${place.dead}</td>
           </tr>
