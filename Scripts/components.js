@@ -128,7 +128,8 @@ function createTable() {
           <thead>
             <tr>
               <th>Indirizzo</th>
-              <th>Data e Ora</th>
+              <th>Data</th>
+              <th>Ora</th>
               <th>Targhe Coinvolte</th>
               <th>Feriti</th>
               <th>Morti</th>
@@ -139,6 +140,7 @@ function createTable() {
               <tr>
                 <td>${place.name}</td>
                 <td>${place.date}</td>
+                <td>${place.time}</td>
                 <td>${place.plates}</td>
                 <td>${place.injured}</td>
                 <td>${place.dead}</td>
@@ -161,6 +163,7 @@ function createTable() {
           <tr>
             <td>${place.name}</td>
             <td>${place.date}</td>
+            <td>${place.time}</td>
             <td>${place.plates}</td>
             <td>${place.injured}</td>
             <td>${place.dead}</td>
