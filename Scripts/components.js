@@ -16,7 +16,7 @@ const createForm = (elem) => {
               if (type === "date") {
                   maxAttr = `max="${today}"`;
               }
-              return `<div>${label}<input id="${label}" type="${type}" ${maxAttr}></div>`;
+              return `<div>${label}</div><div><input  id="${label}" type="${type}" ${maxAttr}></div>`;
           }).join('');
 
           element.innerHTML += `<button type="button" id="chiudi">Chiudi</button>`;
