@@ -21,6 +21,9 @@
     z-index: 999;
 }
 
-#table, th, td {
-    border: 1px solid;
+#modale {
+    margin-top: 20px;
+    display: flex;
+    justify-self: end;
+    margin-bottom: 20px;
 }

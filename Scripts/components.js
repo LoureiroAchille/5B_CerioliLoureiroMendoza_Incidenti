@@ -123,8 +123,7 @@ function createTable() {
       //Crea la tabella
       let tableHtml = `
         <input type="text" id="FiltroInput" placeholder="Cerca per indirizzo">
-        <button id="Button">Filtra</button>
-        <table>
+        <table class="table-striped">
           <thead>
             <tr>
               <th>Indirizzo</th>
@@ -152,9 +151,9 @@ function createTable() {
       container.innerHTML = tableHtml;
   
       // filtra i dati della tabella
-      document.getElementById('Button').onclick = () => {
+      document.getElementById('FiltroInput').addEventListener('input', function() {
         const filter = document.getElementById('FiltroInput');
-        const filteredPlaces = places.filter(place => place.name.includes(filter.value));
+        const filteredPlaces = places.filter(place => place.name.toLowerCase().includes(filter.value));
 
   
         //tabella aggiornata
@@ -169,7 +168,7 @@ function createTable() {
             <td>${place.dead}</td>
           </tr>
         `).join('');
-      };
+      });
     });
   }
   /*const handleAddIncident = () => {
