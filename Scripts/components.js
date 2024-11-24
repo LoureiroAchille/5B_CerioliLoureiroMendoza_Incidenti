@@ -4,7 +4,6 @@ const createForm = (elem) => {
   let data;
   let element = elem;
   let callback;
-
   return {
       setLabels: (labels) => { data = labels; },
       setCallback: (f) => { callback = f; },
@@ -65,22 +64,7 @@ const createForm = (elem) => {
   };
 };
 
-
-
-
-
-  /*let places = [
-    {
-       name: "Piazza del Duomo",
-       date: "2022-03-25",
-       time: "9:00",
-       plates: ["AA123BB"],
-       injured: 1,
-       dead: 1,
-       coords: [45.4639102, 9.1906426],
-    }
- ];
-  upload(places);*/
+//creazione iniziale
   let zoom = 12;
   let maxZoom = 19;
   let map = L.map('map').setView([45.4654219,9.1859243], zoom);
@@ -209,10 +193,4 @@ function createTable() {
     };
 };
 */
-
-// Esporta la funzione per essere utilizzata in script.js
-
-
-
-
 export{createForm,renderMap,createTable};
