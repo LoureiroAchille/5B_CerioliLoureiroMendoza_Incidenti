@@ -193,4 +193,79 @@ function createTable() {
     };
 };
 */
-export{createForm,renderMap,createTable};
+
+
+
+
+const createLogin = (loginContainer) => {
+  let isLoggedIn = false;
+
+  // Verifica lo stato di login all'avvio
+  const checkSession = () => {
+    const sessionData = sessionStorage.getItem("isLoggedIn");
+    if (sessionData === "true") {
+      isLoggedIn = true;
+    }
+  };
+
+  checkSession();
+
+  return {
+    render: () => {
+      if (isLoggedIn) {
+        loginContainer.style.display = "none";
+        return;
+      }
+
+      loginContainer.innerHTML = `
+        <div id="loginForm">
+          <h3>Login</h3>
+          <div> 
+          <input type="text" id="username" placeholder="Username" />
+          </div>
+          <div>
+          <input type="password" id="password" placeholder="Password" />
+          </div>
+          <button id="loginButton">Login</button>
+        </div>
+      `;
+
+      document.getElementById("loginButton").onclick = () => {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        
+        download().then((users) => {
+          let userFound = false;
+          console.log(users)
+          // Ciclo per verificare se le credenziali sono corrette
+          for (let i = 0; i < users.length; i++) {
+            if (users[i].username === username && users[i].password === password) {
+              userFound = true;
+              break;
+            }
+          }
+
+          if (userFound) {
+            isLoggedIn = true;
+            sessionStorage.setItem("isLoggedIn", "true");
+            alert("Login effettuato con successo!");
+            loginContainer.style.display = "none";
+            document.getElementById("addIncidentButton").style.display = "block"; // Mostra il pulsante
+          } else {
+            alert("Credenziali non valide");
+          }
+        }).catch((error) => {
+          console.error("Errore durante il login:", error);
+          alert("Si è verificato un problema. Riprova più tardi.");
+        });
+      };
+    },
+    isUserLoggedIn: () => isLoggedIn,
+  };
+};
+
+
+
+
+export{createForm,renderMap,createTable,createLogin};
