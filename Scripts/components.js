@@ -195,75 +195,56 @@ function createTable() {
 */
 
 
+  const createLogin = () => {
+    const inputName = document.querySelector("#name");
+    const inputPassword = document.querySelector("#password");
+    const loginButton = document.querySelector("#login");
+    const divPrivate = document.querySelector("#private");
+    const divLogin = document.querySelector("#login");
 
+    divPrivate.classList.remove(".visible");
+    divPrivate.classList.add(".hidden");
+    isLogged = sessionStorage.getItem("Logged") || false;
 
-const createLogin = (loginContainer) => {
-  let isLoggedIn = false;
+    const login = (name, password) => {
+      return new Promise((resolve, reject) => {
+        fetch("http://ws.cipiaceinfo.it/credential/login", { 
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            "key": token
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password
+          })
+        })
+        .then(r => r.json())
+        .then(r => {
+            resolve(r.result); 
+          })
+        .catch(reject);
+      });
+    }  
 
-  // Verifica lo stato di login all'avvio
-  const checkSession = () => {
-    const sessionData = sessionStorage.getItem("isLoggedIn");
-    if (sessionData === "true") {
-      isLoggedIn = true;
+    loginButton.onclick = () => {
+      login(input.name, input.password).then((result) => {
+        if (login) {
+          isLogged = true;
+          sessionStorage.setItem("Logged", true);
+          divPrivate.classList.remove(".hidden");
+          divPrivate.classList.add(".visible");
+        }
+      });
     }
-  };
 
-  checkSession();
+    return {
+      isLogged: () => isLogged
+    }
 
-  return {
-    render: () => {
-      if (isLoggedIn) {
-        loginContainer.style.display = "none";
-        return;
-      }
+  }
 
-      loginContainer.innerHTML = `
-        <div id="loginForm">
-          <h3>Login</h3>
-          <div> 
-          <input type="text" id="username" placeholder="Username" />
-          </div>
-          <div>
-          <input type="password" id="password" placeholder="Password" />
-          </div>
-          <button id="loginButton">Login</button>
-        </div>
-      `;
 
-      document.getElementById("loginButton").onclick = () => {
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-
-        
-        download().then((users) => {
-          let userFound = false;
-          console.log(users)
-          // Ciclo per verificare se le credenziali sono corrette
-          for (let i = 0; i < users.length; i++) {
-            if (users[i].username === username && users[i].password === password) {
-              userFound = true;
-              break;
-            }
-          }
-
-          if (userFound) {
-            isLoggedIn = true;
-            sessionStorage.setItem("isLoggedIn", "true");
-            alert("Login effettuato con successo!");
-            loginContainer.style.display = "none";
-            document.getElementById("addIncidentButton").style.display = "block"; // Mostra il pulsante
-          } else {
-            alert("Credenziali non valide");
-          }
-        }).catch((error) => {
-          console.error("Errore durante il login:", error);
-          alert("Si è verificato un problema. Riprova più tardi.");
-        });
-      };
-    },
-    isUserLoggedIn: () => isLoggedIn,
-  };
-};
 
 
 
