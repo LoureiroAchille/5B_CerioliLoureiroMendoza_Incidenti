@@ -11,6 +11,11 @@ form.setLabels([["Luogo","text"],["Targhe","text"],["Data","date"],["Ora","time"
 form.render();
 form.setCallback(getCoordinates);
 
+const log = createLogin (document.getElementById("loginContainer"))
+log.setLabels([["Username","text"],["Password","password"]]);
+log.render();
+
+
 createTable();
 
 renderMap();
@@ -20,20 +25,16 @@ const modale = document.getElementById("modale");
 modale.onclick = () => {
     document.getElementById("form").style.display="block";
     document.getElementById("overlay").style.display="block";
-
 }
-const loginContainer = document.getElementById("loginContainer");
-const login = createLogin(loginContainer);
-login.render();
+
+const login = document.getElementById("login");
+
+login.onclick = () => {
+    document.getElementById("loginContainer").style.display="block";
+    document.getElementById("overlay").style.display="block";
+}
 
 const addIncidentButton = document.getElementById("modale");
 if (!login.isUserLoggedIn()) {
   addIncidentButton.style.display = "none";
-}
-
-
-
-if (login.isUserLoggedIn()) {
-    document.getElementById("modale").style.display = "block";
-  }
-  
+} 

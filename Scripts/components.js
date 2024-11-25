@@ -1,5 +1,6 @@
 import{upload,download} from "./cache.js";
 import { addMarker } from "./functions.js";
+
 const createForm = (elem) => {
   let data;
   let element = elem;
@@ -195,55 +196,55 @@ function createTable() {
 */
 
 
-  const createLogin = () => {
-    const inputName = document.querySelector("#name");
-    const inputPassword = document.querySelector("#password");
-    const loginButton = document.querySelector("#login");
-    const divPrivate = document.querySelector("#private");
-    const divLogin = document.querySelector("#login");
+const createLogin = (elem) => {
+  let data;
+  let element = elem;
+  let callback;
+  return {
+      setLabels: (labels) => { data = labels; },
+      setCallback: (f) => { callback = f; },
+      render: () => {
+          const today = new Date().toISOString().split("T")[0]; // Ottiene la data in formato YYYY-MM-DD
 
-    divPrivate.classList.remove(".visible");
-    divPrivate.classList.add(".hidden");
-    isLogged = sessionStorage.getItem("Logged") || false;
+          element.innerHTML = data.map(([label, type]) => {
+              let maxAttr = "";
+              return `<div>${label}</div><div><input  id="${label}" class="input_css" type="${type}"></div>`;
+          }).join('');
 
-    const login = (name, password) => {
-      return new Promise((resolve, reject) => {
-        fetch("http://ws.cipiaceinfo.it/credential/login", { 
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-            "key": token
-          },
-          body: JSON.stringify({
-            username: username,
-            password: password
-          })
-        })
-        .then(r => r.json())
-        .then(r => {
-            resolve(r.result); 
-          })
-        .catch(reject);
-      });
-    }  
+          element.innerHTML += `<button type="button" id="chiudi_login">Chiudi</button>`;
+          element.innerHTML += `<button type="button" id="invia_login">Accedi</button>`;
 
-    loginButton.onclick = () => {
-      login(input.name, input.password).then((result) => {
-        if (login) {
-          isLogged = true;
-          sessionStorage.setItem("Logged", true);
-          divPrivate.classList.remove(".hidden");
-          divPrivate.classList.add(".visible");
-        }
-      });
-    }
+          document.getElementById("chiudi_login").onclick = () => {
+              elem.style.display = "none";
+              document.getElementById("overlay").style.display = "none";
+          };
 
-    return {
-      isLogged: () => isLogged
-    }
+          document.getElementById("invia_login").onclick = () => {
+              const result = data.map(([label]) => {
+                  return document.getElementById(label).value;
+              });
 
-  }
+              elem.style.display = "none";
+              document.getElementById("overlay").style.display = "none";
 
+              callback(result).then((object) => {
+                  console.log(object);
+
+                  download().then((places) => {
+                      places.push(object); // Aggiunta incidente
+                      upload(places).then(() => {
+                          renderMap();
+                          alert("Incidente aggiunto con successo!");
+                          data.map((line) =>
+                              document.getElementById(line[0]).value = "" // Reset dei campi
+                          );
+                      });
+                  });
+              });
+          };
+      },
+  };
+};
 
 
 

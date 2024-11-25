@@ -11,6 +11,33 @@
     margin-top: 10px;
 }
 
+#loginContainer{
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;   
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+#modale {
+    margin-top: 20px;
+    display: flex;
+    margin-bottom: 20px;
+    margin-right: 10px;
+}
+
+#login {
+    margin-top: 20px;
+    display: flex;
+    margin-bottom: 20px;
+    margin-right: 10px;
+}
+
 #overlay {
     display: none;
     position: fixed;
@@ -22,10 +49,12 @@
     z-index: 999;
 }
 
-#modale {
-    margin-top: 20px;
+.container {
     display: flex;
-    justify-self: end;
-    margin-bottom: 20px;
-    margin-right: 10px;
+    justify-content: end;
+}
+
+.input_css {
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    border: 0;
 }
