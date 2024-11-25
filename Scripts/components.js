@@ -1,4 +1,4 @@
-import{upload,download} from "./cache.js";
+import{upload,download,login_fetch} from "./cache.js";
 import { addMarker } from "./functions.js";
 
 const createForm = (elem) => {
@@ -204,11 +204,8 @@ const createLogin = (elem) => {
       setLabels: (labels) => { data = labels; },
       setCallback: (f) => { callback = f; },
       render: () => {
-          const today = new Date().toISOString().split("T")[0]; // Ottiene la data in formato YYYY-MM-DD
-
           element.innerHTML = data.map(([label, type]) => {
-              let maxAttr = "";
-              return `<div>${label}</div><div><input  id="${label}" class="input_css" type="${type}"></div>`;
+              return `<div>${label}</div><div><input id="${label}" class="input_css" type="${type}"></div>`;
           }).join('');
 
           element.innerHTML += `<button type="button" id="chiudi_login">Chiudi</button>`;
@@ -220,31 +217,43 @@ const createLogin = (elem) => {
           };
 
           document.getElementById("invia_login").onclick = () => {
-              const result = data.map(([label]) => {
-                  return document.getElementById(label).value;
-              });
+              const username = document.getElementById("Username").value;
+              const password = document.getElementById("Password").value;
 
-              elem.style.display = "none";
-              document.getElementById("overlay").style.display = "none";
+              login_fetch(username, password)
+                  .then((isValid) => {
+                      if (isValid) {
+                          document.getElementById("modale").style.display = "block";
+                          elem.style.display = "none";
+                          document.getElementById("overlay").style.display = "none";
+                          console.log("Accesso riuscito!");
+                          alert("Benvenuto!");
 
-              callback(result).then((object) => {
-                  console.log(object);
+                          Cookies.set('Username',username)
+                          Cookies.set('Password',password)
+                          console.log(document.cookie)
 
-                  download().then((places) => {
-                      places.push(object); // Aggiunta incidente
-                      upload(places).then(() => {
-                          renderMap();
-                          alert("Incidente aggiunto con successo!");
-                          data.map((line) =>
-                              document.getElementById(line[0]).value = "" // Reset dei campi
-                          );
-                      });
+                          data.forEach(([label]) => {
+                              document.getElementById(label).value = "";
+                          });
+
+                      } else {
+                          console.log("Accesso fallito. Credenziali errate.");
+                          alert("Accesso negato. Controlla le credenziali.");
+                          data.forEach(([label]) => {
+                              document.getElementById(label).value = "";
+                          });
+                      }
+                  })
+                  .catch((error) => {
+                      console.error("Errore durante il login:", error);
+                      alert("Si è verificato un errore. Riprova più tardi.");
                   });
-              });
           };
       },
   };
 };
+
 
 
 

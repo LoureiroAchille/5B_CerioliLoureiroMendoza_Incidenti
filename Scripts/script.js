@@ -15,6 +15,12 @@ const log = createLogin (document.getElementById("loginContainer"))
 log.setLabels([["Username","text"],["Password","password"]]);
 log.render();
 
+console.log(document.cookie)
+
+if (Cookies.get('Username')!="" && Cookies.get('Password')!="") {
+  document.getElementById("modale").style.display = "block";
+}
+
 
 createTable();
 
@@ -33,8 +39,3 @@ login.onclick = () => {
     document.getElementById("loginContainer").style.display="block";
     document.getElementById("overlay").style.display="block";
 }
-
-const addIncidentButton = document.getElementById("modale");
-if (!login.isUserLoggedIn()) {
-  addIncidentButton.style.display = "none";
-} 
